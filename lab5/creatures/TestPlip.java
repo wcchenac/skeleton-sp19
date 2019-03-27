@@ -33,9 +33,15 @@ public class TestPlip {
     @Test
     public void testReplicate() {
         // TODO
+        Plip p1 = new Plip(1);
+        Plip p2 = p1.replicate();
+        assertEquals(0.5, p1.energy(), 0.01);
+        assertEquals(0.5, p2.energy(), 0.01);
+        Plip p3 = p2.replicate();
+        assertEquals(0.25, p3.energy(), 0.01);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
 
         // No empty adjacent spaces; stay.
