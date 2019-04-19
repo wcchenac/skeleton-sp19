@@ -49,12 +49,9 @@ public class Clorus extends Creature {
 		energy -= 0.01;
 	}
 
-
-
 	public Clorus replicate() {
-		energy = energy * 0.5;
-		double babyEnergy = energy;
-		return new Clorus(babyEnergy);
+		energy *= 0.5;
+		return new Clorus(energy);
 	}
 
 	public Action chooseAction(Map<Direction, Occupant> neighbors) {
@@ -77,12 +74,16 @@ public class Clorus extends Creature {
 		// Clorus action in order of preference
 		if (emptyNeighbors.size() == 0) {               // Rule 1
 			return new Action(Action.ActionType.STAY);
-		} else if (anyPlip) {                           // Rule 2
-			return new Action(Action.ActionType.ATTACK, randomEntry(plipNeighbors));
-		} else if (energy >= 1.0) {                     // Rule 3
-			return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
-		} else {                                        // Rule 4
-			return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+		} else {
+			if (anyPlip) {                           // Rule 2
+				return new Action(Action.ActionType.ATTACK, randomEntry(plipNeighbors));
+			} else {
+				if (energy >= 1.0) {                     // Rule 3
+					return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
+				} else {                                        // Rule 4
+					return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+				}
+			}
 		}
 	}
 }

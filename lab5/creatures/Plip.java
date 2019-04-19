@@ -1,14 +1,9 @@
 package creatures;
 
 import huglife.*;
-
 import java.awt.Color;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Map;
-import java.util.Random;
-
-import static huglife.HugLifeUtils.randomEntry;
+import java.util.*;
+import static huglife.HugLifeUtils.*;
 
 /**
  * An implementation of a motile pacifist photosynthesizer.
@@ -110,9 +105,8 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        energy = energy * 0.5;
-        double babyEnergy = energy;
-        return new Plip(babyEnergy);
+        energy *= 0.5;
+        return new Plip(energy);
     }
 
     /**
@@ -146,12 +140,16 @@ public class Plip extends Creature {
         // Plips action in order of preference
         if (emptyNeighbors.size() == 0) {               // Rule 1
             return new Action(Action.ActionType.STAY);
-        } else if (energy >= 1.0) {                     // Rule 2
-            return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
-        } else if (anyClorus && Math.random() > moveProbability) {    // Rule 3
-            return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
-        } else {                                        // Rule 4
-            return new Action(Action.ActionType.STAY);
+        } else {
+            if (energy >= 1.0) {                     // Rule 2
+                return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
+            } else {
+                if (anyClorus && HugLifeUtils.random() > moveProbability) {    // Rule 3
+                    return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+                } else {                                        // Rule 4
+                    return new Action(Action.ActionType.STAY);
+                }
+            }
         }
     }
 }
