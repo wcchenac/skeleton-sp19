@@ -1,7 +1,7 @@
 /**
  * Represents a flight in the Flight problem.
  */
-public class Flight {
+public class Flight{
 
     int startTime;
     int endTime;
