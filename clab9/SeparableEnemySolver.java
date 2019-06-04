@@ -23,8 +23,43 @@ public class SeparableEnemySolver {
      * Returns true if input is separable, false otherwise.
      */
     public boolean isSeparable() {
-        // TODO: Fix me
-        return false;
+        Set<String> groupX = new HashSet<>();
+        Set<String> groupY = new HashSet<>();
+
+        Set<String> members = g.labels();
+
+        for (String s : members) {
+            boolean inX = false;
+            boolean inY = false;
+
+            Set<String> enemy = g.neighbors(s);
+            // Any member s's enemy in groupX?
+            for (String ss : enemy) {
+                if (groupX.contains(ss)) {
+                    inX = true;
+                    break;
+                }
+            }
+            // Any member s's enemy in groupY?
+            for (String ss : enemy) {
+                if (groupY.contains(ss)) {
+                    inY = true;
+                    break;
+                }
+            }
+
+            if (inX) {
+                if (inY) {
+                    return false;
+                } else {
+                    groupY.add(s);
+                }
+            } else {
+                groupX.add(s);
+            }
+        }
+
+        return true;
     }
 
 
